@@ -71,7 +71,8 @@ img{max-width:100%;display:block}
 
 .stage{padding:26px 30px 50px;min-width:0;font-size:1.02rem}
 .topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:22px}
-.topbar h1{margin:0;font:400 2.35rem/1 'Instrument Serif',serif}
+.topbar > div:first-child{min-width:0}
+.topbar h1{margin:4px 0 0;font:700 1.7rem/1.25 'DM Sans',sans-serif;letter-spacing:-.03em}
 .menu-toggle{display:none;border:0;background:none;font-size:1.2rem;margin-bottom:6px}
 .top-actions{display:flex;align-items:center;gap:10px}
 .avatar-chip{display:flex;align-items:center;gap:10px;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:6px 12px 6px 6px}
@@ -89,8 +90,9 @@ img{max-width:100%;display:block}
 @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
 .hero-banner{position:relative;overflow:hidden;border-radius:28px;padding:34px;background:linear-gradient(125deg,#2a1748,#4a2d7a 55%,#6b3fa0);color:#fff;margin-bottom:18px;box-shadow:var(--glow)}
-.hero-banner h2{font:400 clamp(1.9rem,3vw,2.9rem)/1.05 'Instrument Serif',serif;max-width:540px;margin:8px 0 12px}
-.hero-banner p{max-width:540px;color:#e4d4ff;margin:0;font-size:1.05rem}
+.hero-banner > div:first-child{position:relative;z-index:1;max-width:620px}
+.hero-banner h2{font:700 clamp(1.45rem,2.2vw,2.05rem)/1.3 'DM Sans',sans-serif;letter-spacing:-.03em;max-width:620px;margin:10px 0 14px}
+.hero-banner p{max-width:620px;color:#e4d4ff;margin:0;font-size:1.02rem;line-height:1.55}
 .hero-orbits{position:absolute;right:-40px;top:-30px;width:280px;height:280px;pointer-events:none}
 .hero-orbits span{position:absolute;inset:20%;border:1px solid rgba(212,184,255,.28);border-radius:50%;animation:spin 18s linear infinite}
 .hero-orbits span:nth-child(2){inset:32%;animation-duration:12s;animation-direction:reverse}
@@ -170,12 +172,12 @@ img{max-width:100%;display:block}
   .menu-toggle{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:#fff;margin-bottom:8px}
   .stage{padding:16px 14px 40px}
   .topbar{flex-direction:column;gap:14px;margin-bottom:16px}
-  .topbar h1{font-size:1.85rem}
+  .topbar h1{font-size:1.45rem;line-height:1.3}
   .top-actions{width:100%;justify-content:space-between}
   .avatar-chip small{display:none}
   .stat-row,.quick-grid{grid-template-columns:1fr;gap:10px}
   .hero-banner{padding:24px 20px;border-radius:20px}
-  .hero-banner h2{font-size:1.7rem}
+  .hero-banner h2{font-size:1.35rem;line-height:1.35}
   .hero-orbits{display:none}
   .product-cols,.review-cols{grid-template-columns:1fr}
   .table-head{display:none}
