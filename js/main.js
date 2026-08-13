@@ -3,20 +3,28 @@ let WA_NUMBER='94766280198';
 function applyAdminCMS(){
   const data=JSON.parse(localStorage.getItem('cocoCMS')||'{}');
   const PRODUCT_IMAGE_MAP={
-    p1:'images/prod-virgin-oil.png',p2:'images/prod-oil-family.png',p3:'images/prod-milk.png',p4:'images/prod-water.png',
-    p5:'images/prod-flour.png',p6:'images/prod-sugar.png',p7:'images/prod-evoo.png',p8:'images/prod-hair-oil.png',
-    p9:'images/prod-milk-large.png',p10:'images/prod-king-water.png',p11:'images/prod-desiccated.png',p12:'images/prod-chips.png',
-    p13:'images/prod-massage.png',p14:'images/prod-organic.png',p15:'images/prod-cream.png',p16:'images/prod-sparkling.png',
-    p17:'images/prod-flour-large.png',p18:'images/prod-sugar.png',p19:'images/prod-vinegar.png',p20:'images/prod-butter.png',
-    p21:'images/prod-cooking.png',p22:'images/prod-latte.png',p23:'images/prod-gift.png',p24:'images/prod-sampler.png'
+    p1:'images/prod-virgin-oil.webp',p2:'images/prod-oil-family.webp',p3:'images/prod-milk.webp',p4:'images/prod-water.webp',
+    p5:'images/prod-flour.webp',p6:'images/prod-sugar.webp',p7:'images/prod-evoo.webp',p8:'images/prod-hair-oil.webp',
+    p9:'images/prod-milk-large.webp',p10:'images/prod-king-water.webp',p11:'images/prod-desiccated.webp',p12:'images/prod-chips.webp',
+    p13:'images/prod-massage.webp',p14:'images/prod-organic.webp',p15:'images/prod-cream.webp',p16:'images/prod-sparkling.webp',
+    p17:'images/prod-flour-large.webp',p18:'images/prod-sugar.webp',p19:'images/prod-vinegar.webp',p20:'images/prod-butter.webp',
+    p21:'images/prod-cooking.webp',p22:'images/prod-latte.webp',p23:'images/prod-gift.webp',p24:'images/prod-sampler.webp'
   };
-  if(data.imgVer!==2 && Array.isArray(data.products)){
-    data.products.forEach(p=>{
-      const next=PRODUCT_IMAGE_MAP[p.id];
-      const img=String(p.image||'');
-      if(next&&(!img||/product-collection|hero-estate|hero-products/.test(img))){p.image=next;p.pos='center'}
-    });
-    data.imgVer=2;
+  if(data.imgVer!==3){
+    if(Array.isArray(data.products)){
+      data.products.forEach(p=>{
+        const next=PRODUCT_IMAGE_MAP[p.id];
+        const img=String(p.image||'');
+        if(next&&(!img||/product-collection|hero-estate|hero-products/.test(img))){p.image=next;p.pos='center'}
+        if(p.image&&!String(p.image).startsWith('data:')) p.image=String(p.image).replace(/\.png$/i,'.webp');
+      });
+    }
+    if(Array.isArray(data.reviews)){
+      data.reviews.forEach(r=>{
+        if(r.image&&!String(r.image).startsWith('data:')) r.image=String(r.image).replace(/\.png$/i,'.webp');
+      });
+    }
+    data.imgVer=3;
     try{localStorage.setItem('cocoCMS',JSON.stringify(data))}catch{}
   }
 
@@ -47,7 +55,7 @@ function applyAdminCMS(){
       const name=`${p.title}${p.size? ' '+p.size:''}`.trim();
       const tag=p.tag?`<span class="tag">${escapeCms(p.tag)}</span>`:'';
       return `<article class="product-card" data-category="${escapeCms(p.category||'pantry')}" data-name="${escapeCms(name)}" data-price="${Number(p.price)||0}">
-        <div class="product-visual"><img src="${escapeCms(p.image||'images/product-collection.png')}" style="object-position:${escapeCms(p.pos||'50% center')}" alt="${escapeCms(p.title)}">${tag}</div>
+        <div class="product-visual"><img src="${escapeCms(p.image||'images/product-collection.webp')}" style="object-position:${escapeCms(p.pos||'50% center')}" alt="${escapeCms(p.title)}" loading="lazy" decoding="async">${tag}</div>
         <div class="product-body"><h3>${escapeCms(p.title)}</h3><p>${escapeCms(p.description||'')}</p>
         <div class="product-bottom"><span class="price">Rs. ${Number(p.price||0).toLocaleString()} <small>/ ${escapeCms(p.size||'')}</small></span>
         <button class="add-btn" aria-label="Add ${escapeCms(p.title)}"><i data-lucide="plus"></i></button></div></div>
@@ -62,7 +70,7 @@ function applyAdminCMS(){
       const parts=String(r.name||'CL').trim().split(/\s+/);
       const av=((parts[0]?.[0]||'')+(parts[1]?.[0]||'')).toUpperCase()||'CL';
       return `<article class="review-card reveal">
-        <img class="review-bg" src="${escapeCms(r.image||'images/hero-estate.png')}" alt="">
+        <img class="review-bg" src="${escapeCms(r.image||'images/hero-estate.webp')}" alt="">
         <div class="review-content">
           <div class="stars">★★★★★</div>
           <blockquote>“${escapeCms(r.quote||'')}”</blockquote>
@@ -106,7 +114,7 @@ function escapeCms(str){
     .replace(/"/g,'&quot;');
 }
 
-function enhanceAbout(){const main=document.querySelector('main'),first=main?.querySelector('.section'),process=main?.querySelector('.products');if(!main||!first||!process)return;first.insertAdjacentHTML('afterend',`<section class="section about-manifesto"><div class="container manifesto-grid"><div class="manifesto-copy reveal"><span class="eyebrow">Why we began</span><h2 class="section-title">To keep the goodness close to where it grows.</h2><p>Too often, coconuts travel far before they are transformed. We chose another path: work close to the groves, move quickly after harvest and keep every stage personal.</p><blockquote>“Our ambition was never to make the most. It was to make something unmistakably honest.”</blockquote><div class="founder-sign"><strong>Nalin Jayawardena</strong><span>Founder · CocoLanka</span></div></div><div class="story-collage reveal"><figure class="collage-main"><img src="images/hero-about.png" alt="Coconut plantation at sunrise"></figure><figure class="collage-small"><img src="images/product-collection.png" alt="Coconut products crafted in small batches"></figure><div class="collage-note"><strong>48 hrs</strong><span>Harvest to production</span></div></div></div></section><section class="section origin-band"><div class="container"><div class="section-head reveal"><div><span class="eyebrow">Southern provenance</span><h2 class="section-title">A place that shapes every product.</h2></div><p class="lead">Matara's warm coast, seasonal rain and generations of coconut knowledge give our ingredients their distinctive character.</p></div><div class="origin-grid"><article class="origin-card reveal"><span>01</span><h3>Coastal climate</h3><p>Sun, sea air and tropical rain nurture healthy palms with naturally rich fruit.</p></article><article class="origin-card reveal"><span>02</span><h3>Generational knowledge</h3><p>Growers read each tree and harvest with experience no machine can replace.</p></article><article class="origin-card reveal"><span>03</span><h3>Close relationships</h3><p>Direct partnerships help us protect quality while paying farming families fairly.</p></article></div></div></section>`);process.insertAdjacentHTML('afterend',`<section class="section impact-section"><div class="container impact-grid"><div class="impact-image reveal"><img src="images/farm-story.png" alt="CocoLanka farming community"><div class="impact-badge"><i data-lucide="heart-handshake"></i><span>Growing together since 2016</span></div></div><div class="impact-copy reveal"><span class="eyebrow">People before volume</span><h2 class="section-title">A better product should build a better circle.</h2><p>Every CocoLanka purchase supports a network of growers, harvesters, makers and local delivery partners. We focus on dependable relationships instead of chasing the lowest possible cost.</p><ul class="impact-list"><li><i data-lucide="coins"></i><div><strong>Fair, predictable buying</strong><span>Clear pricing and consistent demand for partner farms.</span></div></li><li><i data-lucide="recycle"></i><div><strong>Whole-coconut thinking</strong><span>Husk, shell, water and meat are reused wherever possible.</span></div></li><li><i data-lucide="users"></i><div><strong>Local opportunity</strong><span>Processing and packing create work close to farming communities.</span></div></li></ul></div></div></section><section class="section about-promise"><div class="container promise-inner reveal"><span class="eyebrow">Our promise</span><h2>What nature gives us, we will never overcomplicate.</h2><div class="promise-points"><span>Pure ingredients</span><span>Gentle processes</span><span>Honest relationships</span></div></div></section>`);main.querySelectorAll('.about-manifesto .reveal,.origin-band .reveal,.impact-section .reveal,.about-promise .reveal').forEach(el=>{requestAnimationFrame(()=>el.classList.add('visible'))});if(window.lucide)lucide.createIcons()}
+function enhanceAbout(){const main=document.querySelector('main'),first=main?.querySelector('.section'),process=main?.querySelector('.products');if(!main||!first||!process)return;first.insertAdjacentHTML('afterend',`<section class="section about-manifesto"><div class="container manifesto-grid"><div class="manifesto-copy reveal"><span class="eyebrow">Why we began</span><h2 class="section-title">To keep the goodness close to where it grows.</h2><p>Too often, coconuts travel far before they are transformed. We chose another path: work close to the groves, move quickly after harvest and keep every stage personal.</p><blockquote>“Our ambition was never to make the most. It was to make something unmistakably honest.”</blockquote><div class="founder-sign"><strong>Nalin Jayawardena</strong><span>Founder · CocoLanka</span></div></div><div class="story-collage reveal"><figure class="collage-main"><img src="images/hero-about.webp" alt="Coconut plantation at sunrise"></figure><figure class="collage-small"><img src="images/product-collection.webp" alt="Coconut products crafted in small batches"></figure><div class="collage-note"><strong>48 hrs</strong><span>Harvest to production</span></div></div></div></section><section class="section origin-band"><div class="container"><div class="section-head reveal"><div><span class="eyebrow">Southern provenance</span><h2 class="section-title">A place that shapes every product.</h2></div><p class="lead">Matara's warm coast, seasonal rain and generations of coconut knowledge give our ingredients their distinctive character.</p></div><div class="origin-grid"><article class="origin-card reveal"><span>01</span><h3>Coastal climate</h3><p>Sun, sea air and tropical rain nurture healthy palms with naturally rich fruit.</p></article><article class="origin-card reveal"><span>02</span><h3>Generational knowledge</h3><p>Growers read each tree and harvest with experience no machine can replace.</p></article><article class="origin-card reveal"><span>03</span><h3>Close relationships</h3><p>Direct partnerships help us protect quality while paying farming families fairly.</p></article></div></div></section>`);process.insertAdjacentHTML('afterend',`<section class="section impact-section"><div class="container impact-grid"><div class="impact-image reveal"><img src="images/farm-story.webp" alt="CocoLanka farming community"><div class="impact-badge"><i data-lucide="heart-handshake"></i><span>Growing together since 2016</span></div></div><div class="impact-copy reveal"><span class="eyebrow">People before volume</span><h2 class="section-title">A better product should build a better circle.</h2><p>Every CocoLanka purchase supports a network of growers, harvesters, makers and local delivery partners. We focus on dependable relationships instead of chasing the lowest possible cost.</p><ul class="impact-list"><li><i data-lucide="coins"></i><div><strong>Fair, predictable buying</strong><span>Clear pricing and consistent demand for partner farms.</span></div></li><li><i data-lucide="recycle"></i><div><strong>Whole-coconut thinking</strong><span>Husk, shell, water and meat are reused wherever possible.</span></div></li><li><i data-lucide="users"></i><div><strong>Local opportunity</strong><span>Processing and packing create work close to farming communities.</span></div></li></ul></div></div></section><section class="section about-promise"><div class="container promise-inner reveal"><span class="eyebrow">Our promise</span><h2>What nature gives us, we will never overcomplicate.</h2><div class="promise-points"><span>Pure ingredients</span><span>Gentle processes</span><span>Honest relationships</span></div></div></section>`);main.querySelectorAll('.about-manifesto .reveal,.origin-band .reveal,.impact-section .reveal,.about-promise .reveal').forEach(el=>{requestAnimationFrame(()=>el.classList.add('visible'))});if(window.lucide)lucide.createIcons()}
 function enhanceReviews(){
   // Remove leftover useless metric strips if CMS/old markup injects them
   document.querySelectorAll('.page-hero .metrics, .reviews-visual .metrics').forEach(el=>el.remove());
@@ -114,7 +122,7 @@ function enhanceReviews(){
   if(!grid) return;
   grid.classList.add('reviews-page-grid');
   // Ensure every card has a photo background image element
-  const imgs=['images/hero-estate.png','images/farm-story.png','images/hero-reviews.png','images/product-collection.png','images/hero-about.png','images/hero-products.png','images/contact-hero.png','images/footer-bg.png'];
+  const imgs=['images/hero-estate.webp','images/farm-story.webp','images/hero-reviews.webp','images/product-collection.webp','images/hero-about.webp','images/hero-products.webp','images/contact-hero.webp','images/footer-bg.webp'];
   grid.querySelectorAll('.review-card').forEach((card,i)=>{
     if(!card.querySelector('.review-bg')){
       const img=document.createElement('img');
@@ -158,10 +166,17 @@ document.addEventListener('DOMContentLoaded',()=>{
   const bg=document.createElement('div');
   bg.className='footer-bg';
   bg.setAttribute('aria-hidden','true');
-  bg.innerHTML='<img src="images/footer-bg-new.png" alt="">';
+  bg.innerHTML='<img src="images/footer-bg-new.webp" alt="">';
   f.prepend(bg);
  });
  applyAdminCMS();
+ document.querySelectorAll('img').forEach(img=>{
+  const src=img.getAttribute('src')||'';
+  if(/^images\/.+\.png$/i.test(src)) img.setAttribute('src', src.replace(/\.png$/i,'.webp'));
+  if(img.closest('.hero-media')){ img.setAttribute('fetchpriority','high'); img.decoding='async'; return; }
+  if(!img.getAttribute('loading')) img.loading='lazy';
+  img.decoding='async';
+ });
  const adminLink=document.createElement('a');
  adminLink.className='admin-login-link';
  adminLink.href='admin-login.html';
@@ -171,14 +186,18 @@ document.addEventListener('DOMContentLoaded',()=>{
  const nav=document.querySelector('.navbar'),menu=document.querySelector('.menu-btn'),links=document.querySelector('.nav-links');
  const onScroll=()=>nav?.classList.toggle('scrolled',scrollY>35);onScroll();addEventListener('scroll',onScroll,{passive:true});
  menu?.addEventListener('click',()=>{
-  links.classList.toggle('open');
-  document.body.classList.toggle('menu-open');
-  menu.classList.toggle('open', links.classList.contains('open'));
+  const open=!links.classList.contains('open');
+  links.classList.toggle('open',open);
+  document.body.classList.toggle('menu-open',open);
+  menu.classList.toggle('open',open);
+  if(open) document.body.appendChild(links);
+  else nav?.querySelector('.nav')?.insertBefore(links, menu);
  });
  links?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
   links.classList.remove('open');
   document.body.classList.remove('menu-open');
   menu?.classList.remove('open');
+  nav?.querySelector('.nav')?.insertBefore(links, menu);
  }));
  const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.reveal').forEach(x=>obs.observe(x));
  initProductPagination();
