@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#123d2b">
   <title>Shop Products | CocoLanka</title>
   <meta name="description" content="Browse CocoLanka coconut oils, milk, water and pantry essentials. Order easily on WhatsApp.">
-  <link rel="stylesheet" href="css/style.css?v=mob3">
+  <link rel="stylesheet" href="css/style.css?v=search1">
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
 </head>
 <body>
@@ -48,12 +48,20 @@
         <p class="lead">Add what you love, then send the complete order directly to our team on WhatsApp.</p>
       </div>
 
-      <div class="filter-bar">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="oil">Oils</button>
-        <button class="filter-btn" data-filter="drink">Milk & water</button>
-        <button class="filter-btn" data-filter="pantry">Pantry</button>
+      <div class="shop-toolbar">
+        <label class="shop-search">
+          <i data-lucide="search"></i>
+          <input id="shopSearch" type="search" placeholder="Search oils, milk, flour, gifts..." autocomplete="off" aria-label="Search products">
+          <button type="button" class="shop-search-clear" id="shopSearchClear" hidden aria-label="Clear search">×</button>
+        </label>
+        <div class="filter-bar">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="oil">Oils</button>
+          <button class="filter-btn" data-filter="drink">Milk & water</button>
+          <button class="filter-btn" data-filter="pantry">Pantry</button>
+        </div>
       </div>
+      <p class="shop-empty" id="shopEmpty" hidden>No products match that search. Try another word or choose All.</p>
 
       <div class="product-grid" id="productGrid">
         <!-- Page 1: 12 products -->
@@ -189,7 +197,7 @@
     <div class="footer-bottom"><span>© 2026 CocoLanka (Pvt) Ltd.</span><span>Demo brand experience</span></div>
   </div>
 </footer>
-<script src="js/main.js?v=nav3"></script>
+<script src="js/main.js?v=search1"></script>
 </body>
 </html>
 

@@ -340,14 +340,24 @@ function initProductPagination(){
   const PER_PAGE=12;
   let currentPage=1;
   let currentFilter='all';
+  let currentQuery='';
 
   const pageBtns=[...pagination.querySelectorAll('[data-page]')];
   const prevBtn=pagination.querySelector('[data-page-nav="prev"]');
   const nextBtn=pagination.querySelector('[data-page-nav="next"]');
   const meta=document.getElementById('pageMeta');
+  const search=document.getElementById('shopSearch');
+  const clearBtn=document.getElementById('shopSearchClear');
+  const empty=document.getElementById('shopEmpty');
 
   function filtered(){
-    return cards.filter(c=>currentFilter==='all'||c.dataset.category===currentFilter);
+    return cards.filter(c=>{
+      const catOk=currentFilter==='all'||c.dataset.category===currentFilter;
+      if(!catOk) return false;
+      if(!currentQuery) return true;
+      const hay=((c.dataset.name||'')+' '+(c.querySelector('h3')?.textContent||'')+' '+(c.querySelector('p')?.textContent||'')+' '+(c.querySelector('.tag')?.textContent||'')).toLowerCase();
+      return hay.includes(currentQuery);
+    });
   }
 
   function render(){
@@ -370,16 +380,34 @@ function initProductPagination(){
     if(nextBtn) nextBtn.disabled=currentPage>=totalPages;
 
     if(meta){
-      if(!list.length) meta.textContent='No products in this category';
+      if(!list.length) meta.textContent=currentQuery?'No matches':'No products in this category';
       else{
         const from=start+1;
         const to=start+pageItems.length;
         meta.textContent=`Showing ${from}–${to} of ${list.length}`;
       }
     }
+    if(empty) empty.hidden=!!list.length;
+    if(pagination) pagination.style.display=list.length?'flex':'none';
 
     if(window.lucide) lucide.createIcons();
   }
+
+  search?.addEventListener('input',()=>{
+    currentQuery=search.value.trim().toLowerCase();
+    if(clearBtn) clearBtn.hidden=!currentQuery;
+    currentPage=1;
+    render();
+  });
+  clearBtn?.addEventListener('click',(e)=>{
+    e.preventDefault();
+    if(search) search.value='';
+    currentQuery='';
+    clearBtn.hidden=true;
+    currentPage=1;
+    search?.focus();
+    render();
+  });
 
   document.querySelectorAll('.filter-btn').forEach(btn=>{
     btn.addEventListener('click',()=>{
