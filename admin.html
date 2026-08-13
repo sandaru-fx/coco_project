@@ -1,0 +1,229 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="images/favicon.svg">
+<meta name="theme-color" content="#123d2b">
+  <title>Admin Studio | CocoLanka</title>
+<meta name="description" content="Manage CocoLanka products, reviews, contact details and social links.">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="studio">
+  <aside class="side">
+    <div class="side-brand">
+      <span class="mark">♧</span>
+      <div>
+        <strong>CocoLanka</strong>
+        <small>Admin Studio</small>
+      </div>
+    </div>
+
+    <nav class="side-nav">
+      <p class="nav-label">Workspace</p>
+      <button class="nav-btn active" data-view="dashboard">
+        <span class="ico">◆</span>
+        <span>Dashboard</span>
+      </button>
+
+      <p class="nav-label">Components</p>
+      <button class="nav-btn" data-view="products">
+        <span class="ico">▣</span>
+        <span>Products</span>
+        <em id="navProductCount">0</em>
+      </button>
+      <button class="nav-btn" data-view="reviews">
+        <span class="ico">★</span>
+        <span>Reviews</span>
+        <em id="navReviewCount">0</em>
+      </button>
+      <button class="nav-btn" data-view="contact">
+        <span class="ico">✉</span>
+        <span>Contact</span>
+      </button>
+      <button class="nav-btn" data-view="social">
+        <span class="ico">◉</span>
+        <span>Social links</span>
+      </button>
+      <button class="nav-btn" data-view="account">
+        <span class="ico">⚙</span>
+        <span>Account</span>
+      </button>
+    </nav>
+
+    <div class="side-foot">
+      <a class="ghost-link" href="index.html" target="_blank">View live site ↗</a>
+      <button type="button" class="logout-btn" id="logoutBtn">Log out</button>
+    </div>
+  </aside>
+
+  <div class="stage">
+    <header class="topbar">
+      <div>
+        <button class="menu-toggle" id="menuToggle" type="button">☰</button>
+        <p class="eyebrow">Control center</p>
+        <h1 id="pageTitle">Dashboard</h1>
+      </div>
+      <div class="top-actions">
+        <button type="button" class="btn-soft" id="saveBtn">Save changes</button>
+        <div class="avatar-chip">
+          <span>AD</span>
+          <div><strong>Admin</strong><small>CocoLanka</small></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- DASHBOARD -->
+    <section class="view active" id="view-dashboard">
+      <div class="hero-banner">
+        <div>
+          <p class="eyebrow light">Today</p>
+          <h2>Manage the brand from one calm place.</h2>
+          <p>Add products, update reviews, and keep contact details fresh — then refresh the website to see changes.</p>
+        </div>
+        <div class="hero-orbits">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+      <div class="stat-row">
+        <article class="stat-card">
+          <small>Products</small>
+          <strong id="statProducts">0</strong>
+          <span>Live in catalog</span>
+        </article>
+        <article class="stat-card">
+          <small>Reviews</small>
+          <strong id="statReviews">0</strong>
+          <span>Customer stories</span>
+        </article>
+        <article class="stat-card">
+          <small>Contact</small>
+          <strong id="statContact">Ready</strong>
+          <span>Phone · WhatsApp · Email</span>
+        </article>
+      </div>
+      <div class="quick-grid">
+        <button class="quick-card" data-jump="products"><strong>Edit products</strong><span>Add, update or remove items</span></button>
+        <button class="quick-card" data-jump="reviews"><strong>Edit reviews</strong><span>Update quotes and photos</span></button>
+        <button class="quick-card" data-jump="contact"><strong>Edit contact</strong><span>Phone, WhatsApp & email</span></button>
+        <button class="quick-card" data-jump="social"><strong>Social links</strong><span>Facebook, Instagram & more</span></button>
+        <button class="quick-card" data-jump="account"><strong>Account</strong><span>Change login email & password</span></button>
+      </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="view" id="view-products">
+      <div class="toolbar">
+        <div class="search-wrap">
+          <input id="productSearch" placeholder="Search products...">
+        </div>
+        <button type="button" class="btn-primary" id="addProductBtn">+ Add product</button>
+      </div>
+      <div class="table-shell">
+        <div class="table-head product-cols">
+          <span>Product</span><span>Category</span><span>Price</span><span>Actions</span>
+        </div>
+        <div id="productRows" class="table-body"></div>
+      </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section class="view" id="view-reviews">
+      <div class="toolbar">
+        <div class="search-wrap">
+          <input id="reviewSearch" placeholder="Search reviews...">
+        </div>
+        <button type="button" class="btn-primary" id="addReviewBtn">+ Add review</button>
+      </div>
+      <div class="table-shell">
+        <div class="table-head review-cols">
+          <span>Customer</span><span>Quote</span><span>Actions</span>
+        </div>
+        <div id="reviewRows" class="table-body"></div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="view" id="view-contact">
+      <div class="contact-panel">
+        <div class="panel-intro">
+          <h2>Contact details</h2>
+          <p>These update footer, WhatsApp order links and the live chat number across the site.</p>
+        </div>
+        <form id="contactForm" class="form-grid-2">
+          <label>Display phone<input id="cPhone" required placeholder="076 628 0198"></label>
+          <label>WhatsApp number (no +)
+            <input id="cWhatsapp" required placeholder="94766280198">
+            <span class="field-note">Used for Order on WhatsApp + live chat. Example: 94766280198</span>
+          </label>
+          <label>Email<input id="cEmail" type="email" required></label>
+          <label>Location<input id="cAddress" required></label>
+          <label class="full">Footer tagline<textarea id="cFooter" rows="3"></textarea></label>
+          <div class="form-actions full">
+            <button type="button" class="btn-danger" id="resetContactBtn">Reset contact</button>
+            <button type="submit" class="btn-primary">Save contact</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- SOCIAL -->
+    <section class="view" id="view-social">
+      <div class="contact-panel">
+        <div class="panel-intro">
+          <h2>Social media links</h2>
+          <p>These links appear in the website footer. Leave blank to hide a network.</p>
+        </div>
+        <form id="socialForm" class="form-grid-2">
+          <label class="full">Facebook URL<input id="sFacebook" placeholder="https://facebook.com/cocolanka"></label>
+          <label class="full">Instagram URL<input id="sInstagram" placeholder="https://instagram.com/cocolanka"></label>
+          <label class="full">TikTok URL<input id="sTiktok" placeholder="https://tiktok.com/@cocolanka"></label>
+          <label class="full">YouTube URL<input id="sYoutube" placeholder="https://youtube.com/@cocolanka"></label>
+          <div class="form-actions full">
+            <button type="button" class="btn-danger" id="resetSocialBtn">Reset social</button>
+            <button type="submit" class="btn-primary">Save social links</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ACCOUNT -->
+    <section class="view" id="view-account">
+      <div class="contact-panel">
+        <div class="panel-intro">
+          <h2>Admin account</h2>
+          <p>Change the email and password used to sign in to this admin studio.</p>
+        </div>
+        <form id="accountForm" class="form-grid-2">
+          <label class="full">Login email<input id="aEmail" type="email" required></label>
+          <label>New password<input id="aPassword" type="password" placeholder="Leave blank to keep current" minlength="4"></label>
+          <label>Confirm password<input id="aPassword2" type="password" placeholder="Confirm new password"></label>
+          <p class="full field-note" id="accountHint">Current login is stored in this browser only (demo).</p>
+          <div class="form-actions full">
+            <button type="button" class="btn-danger" id="resetAccountBtn">Reset to demo login</button>
+            <button type="submit" class="btn-primary">Save account</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+
+  <!-- DRAWER -->
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <aside class="drawer" id="drawer">
+    <div class="drawer-head">
+      <div>
+        <p class="eyebrow" id="drawerEyebrow">Edit</p>
+        <h2 id="drawerTitle">Item</h2>
+      </div>
+      <button type="button" class="icon-btn" id="closeDrawer">×</button>
+    </div>
+    <form id="drawerForm" class="drawer-form"></form>
+  </aside>
+
+  <div class="toast" id="toast">Saved</div>
+  <script src="js/admin.js"></script>
+</body>
+</html>
+

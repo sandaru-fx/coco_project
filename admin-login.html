@@ -1,0 +1,67 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="images/favicon.svg">
+<meta name="theme-color" content="#123d2b">
+  <title>Admin Sign In | CocoLanka</title>
+<meta name="description" content="Sign in to the CocoLanka admin studio.">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="login-page">
+  <div class="login-bg"></div>
+  <main class="login-card-v2">
+    <div class="login-top">
+      <a class="logo-pill" href="index.html"><span>♧</span> CocoLanka</a>
+      <span class="secure-chip">Secure demo access</span>
+    </div>
+    <h1>Welcome back</h1>
+    <p class="login-lead">Sign in to manage products, reviews and contact details.</p>
+    <form id="loginForm">
+      <label>Email
+        <input type="email" id="loginEmail" required autocomplete="username">
+      </label>
+      <label>Password
+        <input type="password" id="loginPassword" required autocomplete="current-password">
+      </label>
+      <p class="login-error" id="loginError">Incorrect email or password.</p>
+      <button type="submit" class="btn-glow">Enter dashboard <span>→</span></button>
+    </form>
+    <div class="demo-chip">
+      <strong>Default</strong>
+      <span id="demoHint">admin@cocolanka.lk · admin123</span>
+    </div>
+    <a class="back-site" href="index.html">← Back to website</a>
+  </main>
+  <script>
+    const DEFAULT_AUTH = { email: 'admin@cocolanka.lk', password: 'admin123' };
+    function getAuth() {
+      try { return { ...DEFAULT_AUTH, ...(JSON.parse(localStorage.getItem('cocoAdminAuth') || '{}')) }; }
+      catch { return { ...DEFAULT_AUTH }; }
+    }
+    // Always keep a working demo login available
+    if (!localStorage.getItem('cocoAdminAuth')) {
+      localStorage.setItem('cocoAdminAuth', JSON.stringify(DEFAULT_AUTH));
+    }
+    const auth = getAuth();
+    const email = auth.email || DEFAULT_AUTH.email;
+    const password = auth.password || DEFAULT_AUTH.password;
+    loginEmail.value = email;
+    loginPassword.value = password;
+    demoHint.textContent = email + ' · ' + password;
+    document.getElementById('loginForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const current = getAuth();
+      const ok = loginEmail.value.trim() === current.email && loginPassword.value === current.password;
+      document.getElementById('loginError').style.display = ok ? 'none' : 'block';
+      if (ok) {
+        sessionStorage.setItem('cocoAdmin', 'true');
+        location.href = 'admin.html';
+      }
+    });
+  </script>
+</body>
+</html>
+

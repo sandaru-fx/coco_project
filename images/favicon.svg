@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="CocoLanka">
+  <rect width="64" height="64" rx="16" fill="#123d2b"/>
+  <path d="M32 14c-1.2 8.5-6.8 14.2-14 17.2 5.4 1.2 9.8 4.8 12.2 10.6 2.4-5.8 6.8-9.4 12.2-10.6C34.8 28.2 33.2 22.5 32 14Z" fill="#b9d879"/>
+  <path d="M32 28v22" stroke="#eaf3d7" stroke-width="3.2" stroke-linecap="round"/>
+  <circle cx="32" cy="50" r="3.2" fill="#d8a84e"/>
+</svg>
