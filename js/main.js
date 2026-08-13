@@ -2,6 +2,23 @@ let WA_NUMBER='94766280198';
 
 function applyAdminCMS(){
   const data=JSON.parse(localStorage.getItem('cocoCMS')||'{}');
+  const PRODUCT_IMAGE_MAP={
+    p1:'images/prod-virgin-oil.png',p2:'images/prod-oil-family.png',p3:'images/prod-milk.png',p4:'images/prod-water.png',
+    p5:'images/prod-flour.png',p6:'images/prod-sugar.png',p7:'images/prod-evoo.png',p8:'images/prod-hair-oil.png',
+    p9:'images/prod-milk-large.png',p10:'images/prod-king-water.png',p11:'images/prod-desiccated.png',p12:'images/prod-chips.png',
+    p13:'images/prod-massage.png',p14:'images/prod-organic.png',p15:'images/prod-cream.png',p16:'images/prod-sparkling.png',
+    p17:'images/prod-flour-large.png',p18:'images/prod-sugar.png',p19:'images/prod-vinegar.png',p20:'images/prod-butter.png',
+    p21:'images/prod-cooking.png',p22:'images/prod-latte.png',p23:'images/prod-gift.png',p24:'images/prod-sampler.png'
+  };
+  if(data.imgVer!==2 && Array.isArray(data.products)){
+    data.products.forEach(p=>{
+      const next=PRODUCT_IMAGE_MAP[p.id];
+      const img=String(p.image||'');
+      if(next&&(!img||/product-collection|hero-estate|hero-products/.test(img))){p.image=next;p.pos='center'}
+    });
+    data.imgVer=2;
+    try{localStorage.setItem('cocoCMS',JSON.stringify(data))}catch{}
+  }
 
   // Contact / WhatsApp
   const c=data.contact||{};

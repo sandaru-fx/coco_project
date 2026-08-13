@@ -16,31 +16,39 @@ function getAuth(){
 }
 function setAuth(auth){localStorage.setItem("cocoAdminAuth",JSON.stringify(auth))}
 if(!localStorage.getItem("cocoAdminAuth")) setAuth(DEFAULT_AUTH);
+const PRODUCT_IMAGE_MAP = {
+  p1:"images/prod-virgin-oil.png", p2:"images/prod-oil-family.png", p3:"images/prod-milk.png", p4:"images/prod-water.png",
+  p5:"images/prod-flour.png", p6:"images/prod-sugar.png", p7:"images/prod-evoo.png", p8:"images/prod-hair-oil.png",
+  p9:"images/prod-milk-large.png", p10:"images/prod-king-water.png", p11:"images/prod-desiccated.png", p12:"images/prod-chips.png",
+  p13:"images/prod-massage.png", p14:"images/prod-organic.png", p15:"images/prod-cream.png", p16:"images/prod-sparkling.png",
+  p17:"images/prod-flour-large.png", p18:"images/prod-sugar.png", p19:"images/prod-vinegar.png", p20:"images/prod-butter.png",
+  p21:"images/prod-cooking.png", p22:"images/prod-latte.png", p23:"images/prod-gift.png", p24:"images/prod-sampler.png"
+};
 const DEFAULT_PRODUCTS = [
-  { id:"p1", title:"Virgin Coconut Oil", size:"500ml", price:850, category:"oil", tag:"Bestseller", description:"Cold-pressed below 45°C for a naturally delicate aroma.", image:"images/product-collection.png", pos:"26% center" },
-  { id:"p2", title:"Virgin Coconut Oil", size:"1L", price:1550, category:"oil", tag:"Family size", description:"The same pure cold-pressed oil in our family-sized bottle.", image:"images/product-collection.png", pos:"26% center" },
-  { id:"p3", title:"Creamy Coconut Milk", size:"400ml", price:320, category:"drink", tag:"Fresh batch", description:"Rich, smooth and made from carefully selected mature coconuts.", image:"images/product-collection.png", pos:"48% center" },
-  { id:"p4", title:"Young Coconut Water", size:"330ml", price:220, category:"drink", tag:"", description:"Clean, naturally refreshing hydration with no added sugar.", image:"images/product-collection.png", pos:"62% center" },
-  { id:"p5", title:"Fine Coconut Flour", size:"500g", price:680, category:"pantry", tag:"Gluten free", description:"Lightly milled, naturally fibre-rich flour for everyday baking.", image:"images/product-collection.png", pos:"76% center" },
-  { id:"p6", title:"Coconut Blossom Sugar", size:"250g", price:590, category:"pantry", tag:"", description:"Soft caramel sweetness from coconut blossom nectar.", image:"images/product-collection.png", pos:"82% center" },
-  { id:"p7", title:"Extra Virgin Coconut Oil", size:"250ml", price:520, category:"oil", tag:"", description:"Smaller bottle for kitchens that prefer to restock often.", image:"images/product-collection.png", pos:"30% center" },
-  { id:"p8", title:"Coconut Hair Oil", size:"200ml", price:780, category:"oil", tag:"Care", description:"Nourishing oil for hair rituals and gentle scalp massage.", image:"images/product-collection.png", pos:"34% center" },
-  { id:"p9", title:"Creamy Coconut Milk", size:"1L", price:720, category:"drink", tag:"", description:"Bigger pack for family cooking and weekend batch recipes.", image:"images/product-collection.png", pos:"48% center" },
-  { id:"p10", title:"King Coconut Water", size:"330ml", price:260, category:"drink", tag:"Hydrate", description:"Naturally sweet king coconut water, bottled fresh.", image:"images/product-collection.png", pos:"58% center" },
-  { id:"p11", title:"Desiccated Coconut", size:"400g", price:640, category:"pantry", tag:"", description:"Fine dried coconut for baking, sweets and toppings.", image:"images/product-collection.png", pos:"70% center" },
-  { id:"p12", title:"Coconut Chips", size:"150g", price:450, category:"pantry", tag:"Snack", description:"Lightly toasted chips for snacking and breakfast bowls.", image:"images/product-collection.png", pos:"74% center" },
-  { id:"p13", title:"Massage Coconut Oil", size:"300ml", price:890, category:"oil", tag:"", description:"Silky oil made for calm evening massage rituals.", image:"images/product-collection.png", pos:"28% center" },
-  { id:"p14", title:"Organic Coconut Oil", size:"750ml", price:1280, category:"oil", tag:"Organic", description:"Certified organic cold-pressed oil for everyday cooking.", image:"images/product-collection.png", pos:"32% center" },
-  { id:"p15", title:"Coconut Cream", size:"200ml", price:380, category:"drink", tag:"", description:"Extra-rich cream for desserts, sauces and coffee.", image:"images/product-collection.png", pos:"50% center" },
-  { id:"p16", title:"Sparkling Coconut Water", size:"330ml", price:290, category:"drink", tag:"New", description:"Lightly sparkling coconut water for warm afternoons.", image:"images/product-collection.png", pos:"60% center" },
-  { id:"p17", title:"Fine Coconut Flour", size:"1kg", price:1190, category:"pantry", tag:"", description:"Bulk flour pack for bakers and busy family kitchens.", image:"images/product-collection.png", pos:"76% center" },
-  { id:"p18", title:"Coconut Blossom Sugar", size:"500g", price:980, category:"pantry", tag:"", description:"Larger jar of naturally sweet coconut blossom sugar.", image:"images/product-collection.png", pos:"82% center" },
-  { id:"p19", title:"Coconut Vinegar", size:"375ml", price:540, category:"pantry", tag:"", description:"Naturally fermented vinegar with a bright, clean finish.", image:"images/product-collection.png", pos:"68% center" },
-  { id:"p20", title:"Coconut Butter", size:"250g", price:860, category:"pantry", tag:"", description:"Spreadable coconut butter for toast, smoothies and baking.", image:"images/product-collection.png", pos:"72% center" },
-  { id:"p21", title:"Cooking Coconut Oil", size:"2L", price:2650, category:"oil", tag:"Value", description:"Large cooking oil for restaurants and big households.", image:"images/product-collection.png", pos:"24% center" },
-  { id:"p22", title:"Coconut Latte Mix", size:"200g", price:990, category:"drink", tag:"", description:"Creamy coconut latte blend for cafe-style mornings.", image:"images/product-collection.png", pos:"54% center" },
-  { id:"p23", title:"Coconut Gift Hamper", size:"set", price:3500, category:"pantry", tag:"Gift", description:"A curated gift set of CocoLanka favourites.", image:"images/product-collection.png", pos:"78% center" },
-  { id:"p24", title:"Coconut Sampler Box", size:"set", price:2100, category:"pantry", tag:"Try me", description:"Taste a little of everything before you commit.", image:"images/product-collection.png", pos:"80% center" }
+  { id:"p1", title:"Virgin Coconut Oil", size:"500ml", price:850, category:"oil", tag:"Bestseller", description:"Cold-pressed below 45°C for a naturally delicate aroma.", image:"images/prod-virgin-oil.png", pos:"center" },
+  { id:"p2", title:"Virgin Coconut Oil", size:"1L", price:1550, category:"oil", tag:"Family size", description:"The same pure cold-pressed oil in our family-sized bottle.", image:"images/prod-oil-family.png", pos:"center" },
+  { id:"p3", title:"Creamy Coconut Milk", size:"400ml", price:320, category:"drink", tag:"Fresh batch", description:"Rich, smooth and made from carefully selected mature coconuts.", image:"images/prod-milk.png", pos:"center" },
+  { id:"p4", title:"Young Coconut Water", size:"330ml", price:220, category:"drink", tag:"", description:"Clean, naturally refreshing hydration with no added sugar.", image:"images/prod-water.png", pos:"center" },
+  { id:"p5", title:"Fine Coconut Flour", size:"500g", price:680, category:"pantry", tag:"Gluten free", description:"Lightly milled, naturally fibre-rich flour for everyday baking.", image:"images/prod-flour.png", pos:"center" },
+  { id:"p6", title:"Coconut Blossom Sugar", size:"250g", price:590, category:"pantry", tag:"", description:"Soft caramel sweetness from coconut blossom nectar.", image:"images/prod-sugar.png", pos:"center" },
+  { id:"p7", title:"Extra Virgin Coconut Oil", size:"250ml", price:520, category:"oil", tag:"", description:"Smaller bottle for kitchens that prefer to restock often.", image:"images/prod-evoo.png", pos:"center" },
+  { id:"p8", title:"Coconut Hair Oil", size:"200ml", price:780, category:"oil", tag:"Care", description:"Nourishing oil for hair rituals and gentle scalp massage.", image:"images/prod-hair-oil.png", pos:"center" },
+  { id:"p9", title:"Creamy Coconut Milk", size:"1L", price:720, category:"drink", tag:"", description:"Bigger pack for family cooking and weekend batch recipes.", image:"images/prod-milk-large.png", pos:"center" },
+  { id:"p10", title:"King Coconut Water", size:"330ml", price:260, category:"drink", tag:"Hydrate", description:"Naturally sweet king coconut water, bottled fresh.", image:"images/prod-king-water.png", pos:"center" },
+  { id:"p11", title:"Desiccated Coconut", size:"400g", price:640, category:"pantry", tag:"", description:"Fine dried coconut for baking, sweets and toppings.", image:"images/prod-desiccated.png", pos:"center" },
+  { id:"p12", title:"Coconut Chips", size:"150g", price:450, category:"pantry", tag:"Snack", description:"Lightly toasted chips for snacking and breakfast bowls.", image:"images/prod-chips.png", pos:"center" },
+  { id:"p13", title:"Massage Coconut Oil", size:"300ml", price:890, category:"oil", tag:"", description:"Silky oil made for calm evening massage rituals.", image:"images/prod-massage.png", pos:"center" },
+  { id:"p14", title:"Organic Coconut Oil", size:"750ml", price:1280, category:"oil", tag:"Organic", description:"Certified organic cold-pressed oil for everyday cooking.", image:"images/prod-organic.png", pos:"center" },
+  { id:"p15", title:"Coconut Cream", size:"200ml", price:380, category:"drink", tag:"", description:"Extra-rich cream for desserts, sauces and coffee.", image:"images/prod-cream.png", pos:"center" },
+  { id:"p16", title:"Sparkling Coconut Water", size:"330ml", price:290, category:"drink", tag:"New", description:"Lightly sparkling coconut water for warm afternoons.", image:"images/prod-sparkling.png", pos:"center" },
+  { id:"p17", title:"Fine Coconut Flour", size:"1kg", price:1190, category:"pantry", tag:"", description:"Bulk flour pack for bakers and busy family kitchens.", image:"images/prod-flour-large.png", pos:"center" },
+  { id:"p18", title:"Coconut Blossom Sugar", size:"500g", price:980, category:"pantry", tag:"", description:"Larger jar of naturally sweet coconut blossom sugar.", image:"images/prod-sugar.png", pos:"center" },
+  { id:"p19", title:"Coconut Vinegar", size:"375ml", price:540, category:"pantry", tag:"", description:"Naturally fermented vinegar with a bright, clean finish.", image:"images/prod-vinegar.png", pos:"center" },
+  { id:"p20", title:"Coconut Butter", size:"250g", price:860, category:"pantry", tag:"", description:"Spreadable coconut butter for toast, smoothies and baking.", image:"images/prod-butter.png", pos:"center" },
+  { id:"p21", title:"Cooking Coconut Oil", size:"2L", price:2650, category:"oil", tag:"Value", description:"Large cooking oil for restaurants and big households.", image:"images/prod-cooking.png", pos:"center" },
+  { id:"p22", title:"Coconut Latte Mix", size:"200g", price:990, category:"drink", tag:"", description:"Creamy coconut latte blend for cafe-style mornings.", image:"images/prod-latte.png", pos:"center" },
+  { id:"p23", title:"Coconut Gift Hamper", size:"set", price:3500, category:"pantry", tag:"Gift", description:"A curated gift set of CocoLanka favourites.", image:"images/prod-gift.png", pos:"center" },
+  { id:"p24", title:"Coconut Sampler Box", size:"set", price:2100, category:"pantry", tag:"Try me", description:"Taste a little of everything before you commit.", image:"images/prod-sampler.png", pos:"center" }
 ];
 const DEFAULT_REVIEWS = [
   { id:"r1", name:"Malini Perera", quote:"You can smell the freshness as soon as you open the bottle. We switched from supermarket oil six months ago and it has completely transformed our everyday cooking.", image:"images/hero-estate.png" },
@@ -56,7 +64,7 @@ const DEFAULT_REVIEWS = [
   { id:"r11", name:"Chamath Perera", quote:"Bought the sampler box first. Every product felt carefully made — especially the butter and chips.", image:"images/product-collection.png" },
   { id:"r12", name:"Dilani Fernando", quote:"Customer care is genuine. I asked about wholesale pricing and got a clear quote the same afternoon.", image:"images/hero-reviews.png" }
 ];
-function loadStore(){const raw=JSON.parse(localStorage.getItem("cocoCMS")||"{}");if(!Array.isArray(raw.products)||!raw.products.length)raw.products=JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));if(!Array.isArray(raw.reviews)||!raw.reviews.length)raw.reviews=JSON.parse(JSON.stringify(DEFAULT_REVIEWS));raw.contact={...DEFAULT_CONTACT,...(raw.contact||{})};raw.social={...DEFAULT_SOCIAL,...(raw.social||{})};return raw}
+function loadStore(){const raw=JSON.parse(localStorage.getItem("cocoCMS")||"{}");if(!Array.isArray(raw.products)||!raw.products.length)raw.products=JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));if(!Array.isArray(raw.reviews)||!raw.reviews.length)raw.reviews=JSON.parse(JSON.stringify(DEFAULT_REVIEWS));raw.contact={...DEFAULT_CONTACT,...(raw.contact||{})};raw.social={...DEFAULT_SOCIAL,...(raw.social||{})};if(raw.imgVer!==2 && Array.isArray(raw.products)){raw.products.forEach(p=>{const next=PRODUCT_IMAGE_MAP[p.id];const img=String(p.image||"");if(next&&(!img||/product-collection|hero-estate|hero-products/.test(img))){p.image=next;p.pos="center"}});raw.imgVer=2;try{localStorage.setItem("cocoCMS",JSON.stringify(raw))}catch{}}return raw}
 let store=loadStore(),drawerMode=null,editId=null;
 function persist(msg){localStorage.setItem("cocoCMS",JSON.stringify(store));toast(msg||"Changes saved");refreshAll()}
 function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2200)}
