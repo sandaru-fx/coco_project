@@ -181,23 +181,30 @@ document.addEventListener('DOMContentLoaded',()=>{
  adminLink.className='admin-login-link';
  adminLink.href='admin-login.html';
  adminLink.textContent='Admin Login';
- document.body.appendChild(adminLink);
- if(window.lucide) lucide.createIcons();
  const nav=document.querySelector('.navbar'),menu=document.querySelector('.menu-btn'),links=document.querySelector('.nav-links');
+ const navRow=nav?.querySelector('.nav');
+ if(menu&&navRow) navRow.insertBefore(adminLink, menu);
+ else document.body.appendChild(adminLink);
+ if(window.lucide) lucide.createIcons();
  const onScroll=()=>nav?.classList.toggle('scrolled',scrollY>35);onScroll();addEventListener('scroll',onScroll,{passive:true});
+ const putLinksBack=()=>{
+  if(!links||!navRow) return;
+  const shopBtn=navRow.querySelector(':scope > .btn');
+  navRow.insertBefore(links, shopBtn||adminLink||menu);
+ };
  menu?.addEventListener('click',()=>{
   const open=!links.classList.contains('open');
   links.classList.toggle('open',open);
   document.body.classList.toggle('menu-open',open);
   menu.classList.toggle('open',open);
   if(open) document.body.appendChild(links);
-  else nav?.querySelector('.nav')?.insertBefore(links, menu);
+  else putLinksBack();
  });
  links?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
   links.classList.remove('open');
   document.body.classList.remove('menu-open');
   menu?.classList.remove('open');
-  nav?.querySelector('.nav')?.insertBefore(links, menu);
+  putLinksBack();
  }));
  const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.reveal').forEach(x=>obs.observe(x));
  initProductPagination();
